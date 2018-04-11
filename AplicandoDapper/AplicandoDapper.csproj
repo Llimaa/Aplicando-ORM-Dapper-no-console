@@ -53,14 +53,12 @@
     <Compile Include="acessBanco\Dapper\DapperProfessor.cs" />
     <Compile Include="acessBanco\Dapper\IDapper.cs" />
     <Compile Include="acessBanco\SqlServe.cs" />
-    <Compile Include="Dados.cs" />
-    <Compile Include="EscreverDados.cs" />
-    <Compile Include="SelecioneOpcoes.cs" />
+    <Compile Include="CRUD\SelecioneOpcoes.cs" />
     <Compile Include="Models\Aluno.cs" />
     <Compile Include="Models\Professor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CRUD.cs" />
+    <Compile Include="CRUD\CRUD.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
