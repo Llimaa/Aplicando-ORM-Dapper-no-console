@@ -1,0 +1,107 @@
+Dapper.Contrib:
+
+
+O que é o Dapper?
+
+	O Dapper e basicamente uma ORM(Object Relational Mapping)Ele nao chega a abranjer toda a gama do ORM,
+	mais facilita muito o desenvolvimento de aplicações com melhor desempenho.
+	Mais o seu principal objetivo é melhorar o desempenho das consuktas ao banco de dados.
+	Pode se dizer que o Dapper Contrib estende a interface IDbConnection com métodos CRUD adicionais.
+
+Como funciona?
+
+	O Dapper trabalha com o conceito de Extension methods,onde ele implementa um método
+	 de extensão da classe de conexão do banco, onde ao fazer a consulta ao banco de dados
+ 	o mesmo vai fazer o mapeamento do retorno do Data Reader para o Modelo de dados.
+
+Caracteristicas:
+
+	IEnumerable<T> listar();
+        T buscarPorId(int ID);
+        int inserir(T item);
+        T alterar(T item);
+        bool deletar(T item);
+        bool deletaTodosr(T item);
+	bool Update < T > (lista Enumerável <T>);
+
+	Para que essas extensoes funcione corretamente, a entidade em questao dede possuir uma propriedade chave,
+	onde a mesma e o "id" ou declarada como [key]atributo.
+	
+	 public class Aluno
+    {
+        [Key]
+        public int ID { get; set; }
+        public string  Nome { get; set; }
+        public string Disciplina { get; set; }
+        public string Cpf { get; set; }
+    }
+	
+Get metódo:
+	
+	Obter uma entidade específica com base no id.
+	var  Alu = connection.Get < Aluno > (ID);
+
+GetAll metódo:
+	
+	Obtem lista de todas as entidades na tabela.
+	var  Alu = connection.GetAll < Aluno > ();
+
+	Ou listar usando o Query<> serve para listar especificando quais dados vem primeiro tipo o "nome" depois "Cpf"
+	IEnumerable<Aluno> = Connection.Query<Aluno>("Select * from Aluno order by Nome,Cpf;");
+
+Insert métodos:
+
+	Inserir uma entidade no banco.
+	connection.Insert (novo Aluno {Name = " Lima " });
+
+	ou uma lista de entidades.
+	conexão.Inserir (Alunos);
+
+Update método:
+	
+	Atualizar uma entidade específica
+
+	connection.Update (new Aluno () {Id = 1, Name = " lima " });
+	
+	ou atualizar uma lista de entidades.
+
+	connection.Update (Alunos);
+
+Delete método:
+	
+	Excluir uma entidade pela [Key] propriedade especificada.
+	connection.Delete (new aLUNO () {Id = 1 });
+
+	Ou uma lista de entidades
+	conexão.Delete (Alunos);
+	
+	ou TODAS as entidades na tabela.
+	connection.DeleteAll < Aluno > ();
+	
+Observaçoes:	
+O Dapper.Contrib faz uso de alguns atributos opcionais:
+
+[Table("Tablename")]
+	
+	use outro nome de tabela em vez do nome da classe,
+	(O banco de dados sempre acrescenta um "s" em suas class que sao gerada no banco e essas tem que ser identicas nas views para rodar).
+	
+     [Table("Aluno")]
+    public class Aluno
+    {
+        [Key]
+        public int ID { get; set; }
+        public string  Nome { get; set; }
+        public string Disciplina { get; set; }
+        public string Cpf { get; set; }
+    }	
+
+[Key] 
+	Esta propriedade é a identidade / chave (a menos que seja denominada "Id")
+
+[Write(true/false)] 
+	Esta propriedade é (não) gravável
+
+[Computed]
+	Esta propriedade é calculada e não deve fazer parte de atualizações
+	
